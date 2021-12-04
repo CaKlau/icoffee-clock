@@ -5,6 +5,36 @@ The copy of the original iCoffee Clock
 import datetime
 import time
 
+hour_dict = {0: "Zwölf",
+                1: "Eins",
+                2: "Zwei",
+                3: "Drei",
+                4: "Vier",
+                5: "Fünf",
+                6: "Sechs",
+                7: "Sieben",
+                8: "Acht",
+                9: "Neun",
+                10: "Zehn",
+                11: "Elf",
+                12: "Zwölf",
+                }
+
+min_dict = {0:"-",
+            5: "Fünf nach ",
+            10: "Zehn nach ",
+            15: "Viertel nach ",
+            20: "Zwanzig nach ",
+            25: "Fünf vor Halb ",
+            30: "Halb ",
+            35: "Fünf nach Halb ",
+            40: "Zwanzig vor ",
+            45: "Viertel vor ",
+            50: "Zehn vor ",
+            55: "Fünf vor ",
+            }
+
+
 def get_time_in_words(hours: int, minutes: int) -> str:
     """
     Returns the word based time
@@ -19,39 +49,13 @@ def get_time_in_words(hours: int, minutes: int) -> str:
 
     prefix = "Es ist "
     hours = hours % 12
-
-
-    hour_dict = {0: "Zwölf",
-                 1: "Eins",
-                 2: "Zwei",
-                 3: "Drei",
-                 4: "Vier",
-                 5: "Fünf",
-                 6: "Sechs",
-                 7: "Sieben",
-                 8: "Acht",
-                 9: "Neun",
-                 10: "Zehn",
-                 11: "Elf",
-                 12: "Zwölf",
-                 }
-
-    min_dict = {0:f"{hour_dict[hours]} Uhr",
-               5: "Fünf nach " + hour_dict[hours],
-               10: "Zehn nach " + hour_dict[hours],
-               15: "Viertel nach " + hour_dict[hours],
-               20: "Zwanzig nach " + hour_dict[hours],
-               25: "Fünf vor Halb " + hour_dict[hours+1],
-               30: "Halb " + hour_dict[hours+1],
-               35: "Fünf nach Halb " + hour_dict[hours+1],
-               40: "Zwanzig vor " + hour_dict[hours+1],
-               45: "Viertel vor " + hour_dict[hours+1],
-               50: "Zehn vor " + hour_dict[hours+1],
-               55: "Fünf vor " + hour_dict[hours+1],
-               }
-
-    return prefix + min_dict[minutes]
-
+    if minutes == 0:
+        return prefix + hour_dict[hours] + " Uhr"
+    if minutes >= 25:
+        return prefix + min_dict[minutes] + hour_dict[hours + 1]
+    if minutes < 25:
+        return prefix + min_dict[minutes] + hour_dict[hours]
+    return prefix + "zu spät"
 
 last = -1
 while(True):
