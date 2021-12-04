@@ -1,11 +1,22 @@
+"""
+The copy of the original iCoffee Clock
+"""
+
 import datetime
-import sys
-import os
 import time
 
-print("Hello World")
-
 def get_time_in_words(hours: int, minutes: int) -> str:
+    """
+    Returns the word based time
+
+    :param hours: Hours part of time.
+    :type hours: int
+    :param minutes: Minutes part of time.
+    :type minutes: int
+    :return: Formatted time: e.g. 'Es ist Virtel vor Neun'
+    :rtype: str
+    """
+
     prefix = "Es ist "
     hours = hours % 12
 
@@ -38,24 +49,21 @@ def get_time_in_words(hours: int, minutes: int) -> str:
                50: "Zehn vor " + hour_dict[hours+1],
                55: "Fünf vor " + hour_dict[hours+1],
                }
-    
-    return min_dict[minutes]
-    
+
+    return prefix + min_dict[minutes]
 
 
-i = 0
-last = ""
+last = -1
 while(True):
     temp = datetime.datetime.now()
-    min = temp.minute
-    min = min - min%5
+    minutes = temp.minute
+    minutes = minutes - minutes%5
     hour = temp.hour
-    
-    if min != last:
-        last = min
-    
-        time_in_words = get_time_in_words(hour, min)
-        print(time_in_words)
-    
-    time.sleep(1)
 
+    if minutes != last:
+        last = minutes
+
+        time_in_words = get_time_in_words(hour, minutes)
+        print(time_in_words)
+
+    time.sleep(1)
