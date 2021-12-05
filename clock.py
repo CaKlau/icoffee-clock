@@ -49,6 +49,7 @@ def get_time_in_words(hours: int, minutes: int) -> str:
 
     prefix = "Es ist "
     hours = hours % 12
+    minutes = minutes - minutes%5
     if minutes == 0:
         return prefix + hour_dict[hours] + " Uhr"
     if minutes >= 25:
@@ -57,17 +58,18 @@ def get_time_in_words(hours: int, minutes: int) -> str:
         return prefix + min_dict[minutes] + hour_dict[hours]
     return prefix + "zu spät"
 
-last = -1
-while(True):
-    temp = datetime.datetime.now()
-    minutes = temp.minute
-    minutes = minutes - minutes%5
-    hour = temp.hour
 
-    if minutes != last:
-        last = minutes
+if __name__ == '__main__':
+    last = -1
+    while(True):
+        temp = datetime.datetime.now()
+        minutes = temp.minute
+        hour = temp.hour
 
-        time_in_words = get_time_in_words(hour, minutes)
-        print(time_in_words)
+        if minutes != last:
+            last = minutes
 
-    time.sleep(1)
+            time_in_words = get_time_in_words(hour, minutes)
+            print(time_in_words)
+
+        time.sleep(1)
